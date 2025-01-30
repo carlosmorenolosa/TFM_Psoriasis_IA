@@ -63,14 +63,14 @@ Se detalla la arquitectura del sistema, que incluye:
 ## **Tecnologías Utilizadas**
 
 1. **Modelos de IA Generativa:**
-   - Gemini AI.
+   - Gemini AI y OpenAI.
    - Modelos de lenguaje grandes (LLMs) para análisis y generación de respuestas.
 
 2. **Bases de Datos Vectoriales:**
    - Implementación mediante Pinecone para recuperación eficiente de información.
 
 3. **Desarrollo de Software:**
-   - **Frontend:** React.js.  
+   - **Frontend:** React.js
    - **Backend:** Flask y FastAPI.  
    - **Interacción con APIs externas:** Integración con servicios de IA.
 
@@ -84,16 +84,15 @@ Se detalla la arquitectura del sistema, que incluye:
 El proyecto incluye material adicional que se encuentra en este repositorio:  
 - **Informe Médico Paciente Femenino.**  
 - **Informe Médico Paciente Masculino.**  
-- **Protocolo Psoriasis (resumido).**  
+- **Protocolo Psoriasis.**  
 - **Enlace a la página web del proyecto.**
 
 ---
 
 ## **Enlace a la Página Web**
 Puedes acceder a la página web del proyecto desde el siguiente enlace:  
-[**Página Web del Proyecto**](URL_DE_LA_PAGINA)
+[**Página Web del Proyecto**](https://iaenpsoriasis.pythonanywhere.com/?id=juanjo_amoros)
 
 ---
 
-## **Cómo Citar Este Trabajo**
 
