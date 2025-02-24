@@ -29,6 +29,11 @@ from werkzeug.utils import secure_filename
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
+
+
+
+
+
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 app.secret_key = "papas-popas789M1"
@@ -51,13 +56,13 @@ app.config['SESSION_REDIS'] = redis.from_url('redis://localhost:6379')"""
 Session(app)"""
 
 # Configura tus claves API aquí
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = "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"
 
 openapi_config = OpenApiConfiguration.get_default_copy()
 openapi_config.proxy = "http://proxy.server:3128"
 
 pinecone.init(
-    api_key=os.getenv("PINECONE_API_KEY"),
+    api_key="4f0ad966-b7af-4b4f-ad6f-171998969c1d",
     environment="gcp-starter",
     openapi_config=openapi_config,
 )
@@ -1808,8 +1813,8 @@ def voice_input():
         # Usar el texto de voz como texto normalizado
         texto_normalizado = voice_text
 
-        # Pasar el texto normalizado a consultar_modelo
-        respuesta_md = consultar_modelo(
+        # Pasar el texto normalizado a consultar_modelo y desempaquetar el resultado
+        tratamiento, justificacion = consultar_modelo(
             texto_normalizado,
             language,
             imagen_base64,
@@ -1821,8 +1826,10 @@ def voice_input():
         consultas_realizadas += 1
         actualizar_consultas(user_id, consultas_realizadas)
 
-        # Convertir la respuesta a HTML y retornarla
-        respuesta_html = markdown.markdown(respuesta_md)
+        respuesta_combinada = f"{tratamiento}\n\n### Justificación\n\n{justificacion}"
+
+        # Convertir el tratamiento a HTML y retornarlo
+        respuesta_html = markdown.markdown(respuesta_combinada)
         return jsonify({"message": respuesta_html}), 200
 
     except Exception as e:
@@ -1887,8 +1894,8 @@ def upload_scanned_file():
         # Normalizar el texto extraído
         texto_query = texto_extraido
 
-        # Pasar el texto normalizado a consultar_modelo
-        respuesta_md = consultar_modelo(
+        # Pasar el texto normalizado a consultar_modelo y desempaquetar el resultado
+        tratamiento, justificacion = consultar_modelo(
             texto_query,
             language,
             imagen_base64,
@@ -1900,8 +1907,10 @@ def upload_scanned_file():
         consultas_realizadas += 1
         actualizar_consultas(user_id, consultas_realizadas)
 
+        respuesta_combinada = f"{tratamiento}\n\n### Justificación\n\n{justificacion}"
+
         # Convertir la respuesta a HTML y retornarla
-        respuesta_html = markdown.markdown(respuesta_md)
+        respuesta_html = markdown.markdown(respuesta_combinada)
         return jsonify({"message": respuesta_html}), 200
 
     except Exception as e:
@@ -1964,8 +1973,8 @@ def upload_photo():
         # Normalizar el texto extraído
         texto_query = texto_extraido
 
-        # Pasar el texto normalizado a consultar_modelo
-        respuesta_md = consultar_modelo(
+        # Pasar el texto normalizado a consultar_modelo y desempaquetar el resultado
+        tratamiento, justificacion = consultar_modelo(
             texto_query,
             language,
             imagen_base64,
@@ -1977,8 +1986,10 @@ def upload_photo():
         consultas_realizadas += 1
         actualizar_consultas(user_id, consultas_realizadas)
 
+        respuesta_combinada = f"{tratamiento}\n\n### Justificación\n\n{justificacion}"
+
         # Convertir la respuesta a HTML y retornarla
-        respuesta_html = markdown.markdown(respuesta_md)
+        respuesta_html = markdown.markdown(respuesta_combinada)
         return jsonify({"message": respuesta_html}), 200
 
     except Exception as e:
@@ -2326,6 +2337,11 @@ def consultar_modelo(
     # Extraer IDs y textos similares de los resultados
     textos_similares = [res["metadata"]["texto"] for res in resultados["matches"]]
 
+    # Guardar los textos en el archivo
+    with open("fragmentos_recuperados.txt", "w", encoding="utf-8") as archivo:
+        for texto in textos_similares:
+            archivo.write(texto + "\n\n")
+
     # Concatenar los textos de los resultados para crear el contexto
     texto_concatenado = " ".join(textos_similares)
 
@@ -2563,3 +2579,6 @@ def download_form():
 
 if __name__ == "__main__":
     app.run(debug=True, port=5003)
+
+
+
