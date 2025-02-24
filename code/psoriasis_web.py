@@ -56,13 +56,13 @@ app.config['SESSION_REDIS'] = redis.from_url('redis://localhost:6379')"""
 Session(app)"""
 
 # Configura tus claves API aquí
-openai.api_key = "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"
+openai.api_key = "api-openai"
 
 openapi_config = OpenApiConfiguration.get_default_copy()
 openapi_config.proxy = "http://proxy.server:3128"
 
 pinecone.init(
-    api_key="4f0ad966-b7af-4b4f-ad6f-171998969c1d",
+    api_key="api-pinecone",
     environment="gcp-starter",
     openapi_config=openapi_config,
 )
